@@ -46,8 +46,10 @@ function FormDetails() {
     description: "",
   })
 
+  const [showHistory, setShowHistory] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [bgButton, setBgButton] = useState('light');
+  const [history, setHistory] = useState([]);
 
   const setShow = () => {
     setShowForm(!showForm);
@@ -56,14 +58,138 @@ function FormDetails() {
     setBgButton('light');
   }
 
-  const history = [];
-
   const onSubmit = event => {
-    // console.log(empHistory)
-    history.push(empHistory);
-    console.log(history.length)
+    // history.push(empHistory);
+    setHistory(oldArray => [...oldArray, empHistory]);
     event.preventDefault();
-    return false
+    setShowHistory(true)
+    setShowForm(!showForm);
+  }
+
+  let FormHistory = () => {
+    console.log(history)
+    if(history.length !== 0) {
+      return history.map((dep, i) => {
+        return (
+          <>
+          <Accordion defaultActiveKey="1">
+            <Accordion.Item eventKey="0">
+              <Accordion.Header style={{backgroundColor: "white"}}><strong>{dep.job}</strong>
+                <br />
+                {dep.start_date} - {dep.end_date}
+              </Accordion.Header>
+              <Accordion.Body>
+              <Form onSubmit={onSubmit}>
+                <Form.Group role='form' className="mb-3">
+                  <Row>
+                    <Col>
+                      <Form.Label className="text-muted text-label font-weight-bold">Job Title </Form.Label>
+                      <Form.Control type="text" value={dep.job} required onChange={event => setEmpHistory(previousInputs => ({ ...previousInputs, job: event.target.value}))}/>
+                    </Col>
+                    <Col>
+                      <Form.Label className="text-muted text-label font-weight-bold">Employer  </Form.Label>
+                      <Form.Control type="text" value={dep.employer} required onChange={event => setEmpHistory(previousInputs => ({ ...previousInputs, employer: event.target.value }))}/>
+                    </Col>
+                  </Row>  
+                  <Row>
+                    <Col>
+                      <Row>
+                        <Col className='col-lg-6'>
+                          <Form.Label className="text-muted text-label font-weight-bold">Start Date </Form.Label>
+                          <Form.Control type="date" value={dep.start_date} required onChange={event => setEmpHistory(previousInputs => ({ ...previousInputs, start_date: event.target.value }))}/>
+                        </Col>
+                        <Col className='col-lg-6'>
+                          <Form.Label className="text-muted text-label font-weight-bold"> End Date  </Form.Label>
+                          <Form.Control type="date" value={dep.end_date} required onChange={event => setEmpHistory(previousInputs => ({ ...previousInputs, end_date: event.target.value }))}/>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col>
+                      <Form.Label className="text-muted text-label font-weight-bold">City  </Form.Label>
+                      <Form.Control type="text" value={dep.city} required onChange={event => setEmpHistory(previousInputs => ({ ...previousInputs, city: event.target.value }))}/>
+                    </Col>
+                  </Row>  
+                  <Form.Label className="text-muted text-label font-weight-bold">Description </Form.Label>
+                  <ReactQuill
+                    theme="snow"
+                    modules={modules}
+                    formats={formats}
+                    placeholder="e.g Passionate science teacher with 8+ years of experience and a track record of ..."
+                    onChange={event => setEmpHistory(previousInputs => ({ ...previousInputs, description: event }))}
+                    style={{ height: "220px" }}
+                    className='mb-5'
+                    value={dep.description}
+                  >
+                  </ReactQuill>
+                </Form.Group>
+                </Form>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+          <br/>
+          </>
+          )
+      })
+    }
+  }
+
+  const HistoryDefault = event => {
+    // event.preventDefault()
+    // return (
+    //   <Accordion defaultActiveKey="0">
+    //     <Accordion.Item eventKey="0">
+    //       <Accordion.Header style={{backgroundColor: "white"}}><strong>(Not Specified)</strong></Accordion.Header>
+    //       <Accordion.Body>
+    //       <Form onSubmit={onSubmit}>
+    //         <Form.Group role='form' className="mb-3">
+    //           <Row>
+    //             <Col>
+    //               <Form.Label className="text-muted text-label font-weight-bold">Job Title </Form.Label>
+    //               <Form.Control type="text" required onChange={event => setEmpHistory(previousInputs => ({ ...previousInputs, job: event.target.value}))}/>
+    //             </Col>
+    //             <Col>
+    //               <Form.Label className="text-muted text-label font-weight-bold">Employer  </Form.Label>
+    //               <Form.Control type="text" required onChange={event => setEmpHistory(previousInputs => ({ ...previousInputs, employer: event.target.value }))}/>
+    //             </Col>
+    //           </Row>  
+    //           <Row>
+    //             <Col>
+    //               <Row>
+    //                 <Col className='col-lg-6'>
+    //                   <Form.Label className="text-muted text-label font-weight-bold">Start Date </Form.Label>
+    //                   <Form.Control type="date" required onChange={event => setEmpHistory(previousInputs => ({ ...previousInputs, start_date: event.target.value }))}/>
+    //                 </Col>
+    //                 <Col className='col-lg-6'>
+    //                   <Form.Label className="text-muted text-label font-weight-bold"> End Date  </Form.Label>
+    //                   <Form.Control type="date" required onChange={event => setEmpHistory(previousInputs => ({ ...previousInputs, end_date: event.target.value }))}/>
+    //                 </Col>
+    //               </Row>
+    //             </Col>
+    //             <Col>
+    //               <Form.Label className="text-muted text-label font-weight-bold">City  </Form.Label>
+    //               <Form.Control type="text" required onChange={event => setEmpHistory(previousInputs => ({ ...previousInputs, city: event.target.value }))}/>
+    //             </Col>
+    //           </Row>  
+    //           <Form.Label className="text-muted text-label font-weight-bold">Description </Form.Label>
+    //           <ReactQuill
+    //             theme="snow"
+    //             modules={modules}
+    //             formats={formats}
+    //             placeholder="e.g Passionate science teacher with 8+ years of experience and a track record of ..."
+    //             onChange={event => setEmpHistory(previousInputs => ({ ...previousInputs, description: event }))}
+    //             style={{ height: "220px" }}
+    //             className='mb-5'
+    //           >
+    //           </ReactQuill>
+    //           <Button variant="primary" type="submit">
+    //             Save
+    //           </Button>
+    //         </Form.Group>
+    //         </Form>
+    //       </Accordion.Body>
+    //     </Accordion.Item>
+    //   </Accordion>
+    // )
   }
 
   let listSkill = [
@@ -212,6 +338,9 @@ function FormDetails() {
         <Col xs={6} md={7}>
             <Form.Label><b>Employeement History</b></Form.Label>
             <p className='text-muted'>Show your relevant experience (last 10 years). Use bullet points to note your achievements, if possible - use numbers/facts (Achieved X. Measured by Y, by doing Z).</p>
+            {showHistory && (
+              <FormHistory />
+            )}
             {showForm && (
               <Accordion defaultActiveKey="0">
                 <Accordion.Item eventKey="0">
