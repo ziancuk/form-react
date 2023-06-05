@@ -17,3 +17,42 @@
     overflow-anchor: none;
     transition: var(--bs-accordion-transition);
 }
+
+.bg-parent-green{
+    background-color: green !important;
+}
+.bg-child-green{
+    background-color: lightgreen !important;
+}
+.bg-parent-red{
+    background-color: red !important;
+}
+.bg-child-red{
+    background-color: pink !important;
+}
+.bg-parent-blue{
+    background-color: blue !important;
+}
+.bg-child-blue{
+    background-color: lightblue !important;
+}
+.bg-parent-yellow{
+    background-color: orange !important;
+}
+.bg-child-yellow{
+    background-color: yellow !important;
+}
+.bg-parent-purple{
+    background-color: purple !important;
+}
+.bg-child-purple{
+    background-color: plum !important;
+}
+
+.default-button-level{
+    background-color: lightgray;
+    width: 65px;
+    height: 35px;
+    border-radius:3px;
+    cursor: pointer;
+}
